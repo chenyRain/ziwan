@@ -15,4 +15,7 @@
 //    return view('welcome');
 //});
 
-Route::get('/', 'MainController@index');
+Route::group(['namespace' => 'Frontend'], function () {
+    Route::get('/', 'MainController@index');
+});
+
