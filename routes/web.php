@@ -16,6 +16,7 @@
 //});
 
 Route::group(['namespace' => 'Frontend'], function () {
-    Route::get('/', 'MainController@index');
+    Route::get('/', 'MainController@index')->name('index');
+    Route::get('chat', 'ChatController@index')->name('chat.index');
 });
 
