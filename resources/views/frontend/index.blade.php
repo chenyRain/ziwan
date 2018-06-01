@@ -25,7 +25,8 @@
 @section('content')
     <div class="card">
         <a href="{{ route('chat.index') }}" class="external">
-            <div class="card-header">在线聊天室系统</div>
+            {{--<div class="card-header chat-title">11111111</div>--}}
+            <div class="card-header chat-title">多人在线聊天室系统</div>
             <div class="card-content">
                 <div class="list-block media-list">
                     <ul>
@@ -34,7 +35,8 @@
                                 <img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg" width="44">
                             </div>
                             <div class="item-inner">
-                                <div class="item-subtitle">在线人数：<b class="b_chat_num">1233</b> 人</div>
+                                <p>简介：该系统基于 Laravel + Swoole + Redis + MySQL 实现的多人聊天室，模式类似于群，欢迎评论和点赞。</p>
+                                {{--<p>22222222</p>--}}
                             </div>
                         </li>
                     </ul>
@@ -43,7 +45,9 @@
         </a>
         <div class="card-footer">
             <a href="#" class="link">赞</a>
-            <a href="#" class="link">123 评论</a>
+            <a href="#" class="link">
+                <span class="icon icon-message"></span>
+            </a>
         </div>
     </div>
 @show

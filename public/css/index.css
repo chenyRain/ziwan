@@ -1,14 +1,7 @@
-.b_chat_num {
-    color: red;
+ul,li{
+    margin: 0;
+    padding: 0;
 }
-.chat_right_h4 {
-    text-align: center;
-    color: white;
-}
-.list-group>ul li{
-    list-style: none;
-    color: orangered;
-}
-.chat-content {
-    /*height: 100%;*/
+.content{
+    overflow: hidden;
 }

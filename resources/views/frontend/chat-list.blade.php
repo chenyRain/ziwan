@@ -1,34 +1,44 @@
 @extends('frontend.layouts.main')
-
+<link rel="stylesheet" href="{{ asset('css/chat.css') }}">
 @section('head')
     <!-- 标题栏 -->
     <header class="bar bar-nav">
         <a href="{{ route('index') }}" class="icon icon-left pull-left external"></a>
         <a class="icon icon-friends pull-right open-panel"></a>
-        <h1 class="title">在线聊天系统</h1>
+        <h1 class="title">多人在线聊天系统</h1>
+        {{--<h1 class="title">33333</h1>--}}
     </header>
 @show
 
 @section('content')
-    <div class="list-block">
+    <div class="chat-content">
         <ul>
-            <li class="item-content">
-                <div class="item-inner">
-                    <div class="item-title">商品名称</div>
+            <li>
+                <div class="user-name">我都去看情况哦啊OK嗯dsdd的人工费</div>
+                <div class="user-content">
+                    啊啊谓无无无
                 </div>
             </li>
-            <li class="item-content">
-                <div class="item-inner">
-                    <div class="item-right">极致超薄型</div>
+            <li id="chat-my">
+                <div class="my-name">我啊啊啊啊啊啊啊啊啊吾</div>
+                <div class="my-content">
+                    啊啊啊啊啊啊啊啊啊吾
+                </div>
+            </li>
+            <li>
+                <div class="user-name">我都费</div>
+                <div class="user-content">
+                    啊
                 </div>
             </li>
         </ul>
     </div>
-    <div class="content-padded chat-content">
-        <div class="searchbar">
-            <div class="search-input">
-                <input type="text" name="content" placeholder='请输入聊天内容...'/>
-            </div>
+    <div class="input-content">
+        <div class="input-say">
+            <input type="text" class="input-item" placeholder="请输入需要说的~">
+        </div>
+        <div class="chat-button">
+            <button href="#" class="button button-big button-fill button-success button-sned">发送</button>
         </div>
     </div>
 @show
