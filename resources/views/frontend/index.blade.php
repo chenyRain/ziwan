@@ -1,5 +1,7 @@
 @extends('frontend.layouts.main')
 
+<link rel="stylesheet" href="{{ asset('css/index.css') }}">
+
 @section('head')
     <!-- 标题栏 -->
     <header class="bar bar-nav">

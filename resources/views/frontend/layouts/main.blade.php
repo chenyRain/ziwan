@@ -8,9 +8,7 @@
     <!--    <link rel="shortcut icon" href="/favicon.ico">-->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
     <link rel="stylesheet" href="{{ asset('css/light7.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 </head>
 <body>
 <div class="page-group">
