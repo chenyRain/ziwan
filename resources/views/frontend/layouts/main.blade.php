@@ -28,18 +28,14 @@
 </div>
 
 <!-- Left Panel with Reveal effect -->
-@section('sidebar')
-    <!-- popup, panel 等放在这里 -->
-    <div class="panel-overlay"></div>
-    <!-- Left Panel with Reveal effect -->
-    <div class="panel panel-left panel-reveal">
-        <div class="content-block">
-            <p>用户信息</p>
-        </div>
-    </div>
-@show
+@yield('sidebar')
 
 <script type='text/javascript' src='{{ asset('js/jquery.min.js') }}'></script>
+<script>
+    $.config = {
+        router: false
+    }
+</script>
 <script type='text/javascript' src='{{ asset('js/light7.min.js') }}'></script>
 </body>
 </html>

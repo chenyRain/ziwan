@@ -16,7 +16,16 @@
 //});
 
 Route::group(['namespace' => 'Frontend'], function () {
-    Route::get('/', 'MainController@index')->name('index');
-    Route::get('chat', 'ChatController@index')->name('chat.index');
+
+    Route::get('login', 'SiteController@login')->name('site.login');
+    Route::get('register', 'SiteController@register')->name('site.register');
+
+    Route::group(['middleware' => 'check.login'], function () {
+        Route::get('/', 'MainController@index')->name('index');
+        Route::get('chat', 'ChatController@index')->name('chat.index');
+    });
 });
 
+//Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
