@@ -50,10 +50,10 @@ class SiteController extends BaseController
         }
 
         // 登陆
-        if (! User::login($data)) {
-            return response()->json($this->jsonRes);
-        }
-        $this->jsonRes['code'] = 200;
+//        if (! User::login($data)) {
+//            return response()->json($this->jsonRes);
+//        }
+        $this->jsonRes['msg'] = "登陆失败,功能未完善";
         return response()->json($this->jsonRes);
     }
 
