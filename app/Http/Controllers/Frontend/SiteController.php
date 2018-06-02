@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\frontend;
 
+use Illuminate\Support\Facades\Hash;
+use Validator;
+use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Models\User;
 
-class SiteController extends Controller
+class SiteController extends BaseController
 {
     /**
      * 登录
@@ -17,11 +20,114 @@ class SiteController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function loginStore(Request $request)
+    {
+        if (! $request->ajax()) {
+            return back()->withInput();
+        }
+
+        $data = $request->all();
+
+        // 验证规则
+        if ($this->validateLogin($data)) {
+            return response()->json($this->jsonRes);
+        }
+
+        // 验证用户是否存在
+        $user = User::where('name', $data['name'])->first();
+        if (empty($user)) {
+            $this->jsonRes['msg'] = '用户名不存在~';
+            return response()->json($this->jsonRes);
+        }
+
+        // 验证密码是否正确
+        if (! Hash::check($data['password'], $user->password)) {
+            $this->jsonRes['msg'] = '用户名或密码错误~';
+            return response()->json($this->jsonRes);
+        }
+
+        // 登陆
+        if (! User::login($data)) {
+            return response()->json($this->jsonRes);
+        }
+        $this->jsonRes['code'] = 200;
+        return response()->json($this->jsonRes);
+    }
+
+    /**
      * 注册
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function register()
     {
         return view('frontend.register');
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function registerStore(Request $request)
+    {
+        if (! $request->ajax()) {
+            return back()->withInput();
+        }
+
+        $data = $request->all();
+
+        // 验证
+        if ($this->validateRegister($data)) {
+            return response()->json($this->jsonRes);
+        }
+
+        if (User::where('name', $data['name'])->first()) {
+            $this->jsonRes['msg'] = '用户名已存在~';
+            return response()->json($this->jsonRes);
+        }
+
+        // 添加用户信息
+        if (! User::register($data)) {
+            return response()->json($this->jsonRes);
+        }
+        $this->jsonRes['code'] = 200;
+        return response()->json($this->jsonRes);
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     */
+    protected function validateRegister($data)
+    {
+        $validator = Validator::make($data, [
+            'name' => 'bail|required|string|max:180',
+            'password' => 'bail|required|string|max:30|confirmed'
+        ]);
+
+        if ($validator->fails()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $data
+     * @return bool
+     */
+    protected function validateLogin($data)
+    {
+        $validator = Validator::make($data, [
+            'name' => 'bail|required|string|max:180',
+            'password' => 'bail|required|string|max:30'
+        ]);
+
+        if ($validator->fails()) {
+            return true;
+        }
+        return false;
     }
 }

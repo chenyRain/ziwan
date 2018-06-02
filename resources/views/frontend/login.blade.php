@@ -1,10 +1,8 @@
 @extends('frontend.layouts.main')
 
-<link rel="stylesheet" href="{{ asset('css/index.css') }}">
-
 @section('head')
     <header class="bar bar-nav">
-        <a href="{{ route('site.register') }}">
+        <a href="{{ route('site.register') }}" class="external">
             <button class="button button-link button-nav pull-right">
                 注 册
                 <span class="icon icon-right"></span>
@@ -12,7 +10,7 @@
         </a>
         <h1 class="title">登 录</h1>
     </header>
-@show
+@endsection
 
 @section('content')
     <div id="list-block-login" class="list-block">
@@ -24,7 +22,7 @@
                     <div class="item-inner">
                         <div class="item-title label">用户名</div>
                         <div class="item-input">
-                            <input type="text" placeholder="Your name">
+                            <input type="text" id="name" placeholder="Your name">
                         </div>
                     </div>
                 </div>
@@ -35,7 +33,7 @@
                     <div class="item-inner">
                         <div class="item-title label">密码</div>
                         <div class="item-input">
-                            <input type="password" placeholder="Password" class="">
+                            <input type="password" id="password" placeholder="Password" class="">
                         </div>
                     </div>
                 </div>
@@ -44,7 +42,7 @@
     </div>
     <div class="content-block">
         <div class="row">
-            <div class="col-100"><a href="#" class="button button-big button-fill button-success">登 录</a></div>
+            <div class="col-100 login"><a href="#" class="button button-big button-fill button-success">登 录</a></div>
         </div>
     </div>
-@show
+@endsection

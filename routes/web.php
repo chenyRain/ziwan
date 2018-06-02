@@ -18,7 +18,9 @@
 Route::group(['namespace' => 'Frontend'], function () {
 
     Route::get('login', 'SiteController@login')->name('site.login');
+    Route::get('login-store', 'SiteController@loginStore')->name('site.login-store');
     Route::get('register', 'SiteController@register')->name('site.register');
+    Route::post('register-store', 'SiteController@registerStore')->name('site.register-store');
 
     Route::group(['middleware' => 'check.login'], function () {
         Route::get('/', 'MainController@index')->name('index');

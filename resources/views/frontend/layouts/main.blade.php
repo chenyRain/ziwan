@@ -1,41 +1,33 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>自玩多元化</title>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <!--    <link rel="shortcut icon" href="/favicon.ico">-->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/light7.min.css') }}">
+    <title>自玩多元化</title>
 </head>
 <body>
-<div class="page-group">
-    <!-- 单个page ,第一个.page默认被展示-->
-    <div class="page">
-        <!-- 标题栏 -->
-        @yield('head')
+<!-- page 容器 -->
+<div class="page">
+    <!-- 标题栏 -->
+    @yield('head')
 
-        <!-- 工具栏 -->
-        @yield('nav')
+    <!-- 工具栏 -->
+    @yield('nav')
 
-        <!-- 这里是页面内容区 -->
-        <div class="content">
-            @yield('content')
-        </div>
+    <!-- 这里是页面内容区 -->
+    <div class="content">
+        @yield('content')
     </div>
 </div>
-
-<!-- Left Panel with Reveal effect -->
+<!-- popup, panel 等放在这里 -->
 @yield('sidebar')
 
 <script type='text/javascript' src='{{ asset('js/jquery.min.js') }}'></script>
-<script>
-    $.config = {
-        router: false
-    }
-</script>
 <script type='text/javascript' src='{{ asset('js/light7.min.js') }}'></script>
+<script type='text/javascript' src='{{ asset('js/frontend.js') }}'></script>
 </body>
 </html>
