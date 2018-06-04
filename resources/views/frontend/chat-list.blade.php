@@ -1,5 +1,7 @@
 @extends('frontend.layouts.main')
+
 <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
+
 @section('head')
     <!-- 标题栏 -->
     <header class="bar bar-nav">
@@ -8,7 +10,7 @@
         <h1 class="title">多人在线聊天系统</h1>
         {{--<h1 class="title">33333</h1>--}}
     </header>
-@show
+@endsection
 
 @section('content')
     <div class="chat-content">
@@ -41,7 +43,7 @@
             <button href="#" class="button button-big button-fill button-success button-sned">发送</button>
         </div>
     </div>
-@show
+@endsection
 
 @section('sidebar')
     <div class="panel-overlay"></div>
@@ -90,4 +92,4 @@
             </div>
         </div>
     </div>
-@show
+@endsection

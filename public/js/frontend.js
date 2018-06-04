@@ -15,22 +15,27 @@ $(function () {
         };
         if (data.name == '') {
             $.alert('用户名不能为空~');
+            $.hideIndicator();
             return false;
         }
         if (data.name.length > 20) {
             $.alert('用户名不能超过20个字符~');
+            $.hideIndicator();
             return false;
         }
         if (data.password == '') {
             $.alert('密码不能为空~');
+            $.hideIndicator();
             return false;
         }
         if (data.password_confirmation == '') {
             $.alert('确认密码不能为空~');
+            $.hideIndicator();
             return false;
         }
         if (data.password_confirmation !== data.password) {
             $.alert('2次密码不一致~');
+            $.hideIndicator();
             return false;
         }
 
@@ -46,7 +51,7 @@ $(function () {
                     $.toast("注册成功,将前往登陆~");
                     setTimeout(function () {
                         window.location.href = '/login'
-                    },2000);
+                    },1000);
                 } else {
                     if (back.msg == '') {
                         $.toast("注册失败~");
@@ -68,10 +73,12 @@ $(function () {
         };
         if (data.name == '') {
             $.alert('用户名不能为空~');
+            $.hideIndicator();
             return false;
         }
         if (data.password == '') {
             $.alert('密码不能为空~');
+            $.hideIndicator();
             return false;
         }
 
@@ -87,7 +94,7 @@ $(function () {
                     $.toast("登陆成功,将前往首页~");
                     setTimeout(function () {
                         window.location.href = '/';
-                    },2000);
+                    },1000);
                 } else {
                     $.toast(back.msg);
                     return false;

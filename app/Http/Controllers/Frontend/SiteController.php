@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\frontend;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use App\Http\Controllers\BaseController;
@@ -20,6 +21,7 @@ class SiteController extends BaseController
     }
 
     /**
+     * 执行登陆
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
@@ -50,10 +52,9 @@ class SiteController extends BaseController
         }
 
         // 登陆
-//        if (! User::login($data)) {
-//            return response()->json($this->jsonRes);
-//        }
-        $this->jsonRes['msg'] = "登陆失败,功能未完善";
+        Auth::login($user);
+
+        $this->jsonRes['code'] = 200;
         return response()->json($this->jsonRes);
     }
 
@@ -67,7 +68,7 @@ class SiteController extends BaseController
     }
 
     /**
-     *
+     *  执行注册
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -96,6 +97,18 @@ class SiteController extends BaseController
         $this->jsonRes['code'] = 200;
         return response()->json($this->jsonRes);
     }
+
+
+    /**
+     * 退出登录
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('site.login');
+    }
+
 
     /**
      * @param $data

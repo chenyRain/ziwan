@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use http\Url;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
+
     /**
      * @var string
      */
@@ -25,13 +25,5 @@ class User extends Model
         $model->name = $data['name'];
         $model->password = bcrypt($data['password']);
         return $model->save() ? $model->id : false;
-    }
-
-
-    public static function login($data = array())
-    {
-        if (empty($data)) {
-            return false;
-        }
     }
 }

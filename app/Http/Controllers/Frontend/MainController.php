@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Frontend;
 
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
 {
@@ -20,6 +21,7 @@ class MainController extends Controller
      */
     public function index()
     {
-        return view('frontend.index');
+        $user = Auth::user();
+        return view('frontend.index', compact('user'));
     }
 }

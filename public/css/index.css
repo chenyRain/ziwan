@@ -2,3 +2,21 @@ ul,li{
     margin: 0;
     padding: 0;
 }
+.p_intro{
+    font-size: 0.7rem;
+    color: black;
+}
+.index-sidebar{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+.index-sidebar h3{
+    color: #b0cc21;
+}
+.logout{
+    width: 100%;
+}
+.index-sidebar-content{
+    height: 60%;
+}
