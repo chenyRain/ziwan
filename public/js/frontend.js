@@ -102,4 +102,28 @@ $(function () {
             }
         });
     });
+
+    $('.button-sned').click(function () {
+        var content = $('#input-say').val();
+        if (content.length > 30) {
+            $.toast('发送内容不能超过30个字符~');
+            return false;
+        }
+        $('#input-say').val('');
+        $.ajax({
+            url: '/chat/say',
+            type: 'post',
+            dataType: 'json',
+            data: {'content':content},
+            success: function (back) {
+                if (back.code == 200) {
+                    $.alert(back.msg);
+                    return false;
+                } else {
+                    $.toast(back.msg);
+                    return false;
+                }
+            }
+        });
+    });
 });

@@ -65,7 +65,7 @@
                 <div class="index-sidebar-content">
                     后续完善...
                 </div>
-                <a href="{{ route('site.logout') }}" class="button button-fill button-danger logout external">退出登录</a>
+                <a id="logout" href="{{ route('site.logout') }}" class="button button-fill button-danger external">退出登录</a>
             </div>
         </div>
     </div>

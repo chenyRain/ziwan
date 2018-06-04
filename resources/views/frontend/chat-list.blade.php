@@ -37,10 +37,10 @@
     </div>
     <div class="input-content">
         <div class="input-say">
-            <input type="text" class="input-item" placeholder="请输入需要说的~">
+            <input type="text" id="input-say" class="input-item" placeholder="请输入需要说的~">
         </div>
         <div class="chat-button">
-            <button href="#" class="button button-big button-fill button-success button-sned">发送</button>
+            <button class="button button-big button-fill button-success button-sned">发送</button>
         </div>
     </div>
 @endsection
