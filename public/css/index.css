@@ -14,8 +14,11 @@ ul,li{
 .index-sidebar h3{
     color: #b0cc21;
 }
-.logout{
+#logout{
     width: 100%;
+    font-size: 1rem;
+    height: 1.75rem;
+    line-height: 1.75rem;
 }
 .index-sidebar-content{
     height: 60%;
