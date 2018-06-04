@@ -1,6 +1,6 @@
 @extends('frontend.layouts.main')
 
-<link rel="stylesheet" href="{{ asset('css/index.css') }}">
+<link rel="stylesheet" href="{{ asset('css/index.css?v=20180605') }}">
 
 @section('head')
     <!-- 标题栏 -->
