@@ -1,6 +1,9 @@
 @extends('frontend.layouts.main')
 
-<link rel="stylesheet" href="{{ asset('css/chat.css') }}">
+@section('css')
+    @parent
+    <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
+@endsection
 
 @section('head')
     <!-- 标题栏 -->
@@ -13,26 +16,9 @@
 @endsection
 
 @section('content')
-    <div class="chat-content">
-        <ul>
-            <li>
-                <div class="user-name">我都去看情况哦啊OK嗯dsdd的人工费</div>
-                <div class="user-content">
-                    啊啊谓无无无
-                </div>
-            </li>
-            <li id="chat-my">
-                <div class="my-name">我啊啊啊啊啊啊啊啊啊吾</div>
-                <div class="my-content">
-                    啊啊啊啊啊啊啊啊啊吾
-                </div>
-            </li>
-            <li>
-                <div class="user-name">我都费</div>
-                <div class="user-content">
-                    啊
-                </div>
-            </li>
+    <div class="chat-content" data-id="{{ $uid }}">
+        <ul class="chart-list">
+
         </ul>
     </div>
     <div class="input-content">
@@ -52,44 +38,15 @@
         <div class="content-block">
             <h4 class="chat_right_h4">在线用户列表</h4>
             <div class="list-group">
-                <ul>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title">张三</div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title">李四</div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title">王二</div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title">码字</div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title">你好</div>
-                            </div>
-                        </div>
-                    </li>
+                <ul class="user-list">
+
                 </ul>
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    @parent
+    <script type="text/javascript" src="{{ asset('js/websocket.js') }}"></script>
 @endsection
