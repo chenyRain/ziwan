@@ -11,12 +11,11 @@
         <a href="{{ route('index') }}" class="icon icon-left pull-left external"></a>
         <a class="icon icon-friends pull-right open-panel"></a>
         <h1 class="title">多人在线聊天系统</h1>
-        {{--<h1 class="title">33333</h1>--}}
     </header>
 @endsection
 
 @section('content')
-    <div class="chat-content" data-id="{{ $uid }}">
+    <div class="chat-content" data-id="">
         <ul class="chart-list">
 
         </ul>
@@ -26,7 +25,7 @@
             <input type="text" id="input-say" class="input-item" placeholder="请输入需要说的~">
         </div>
         <div class="chat-button">
-            <button class="button button-big button-fill button-success button-sned">发送</button>
+            <button class="button button-big button-fill button-success button-send">发送</button>
         </div>
     </div>
 @endsection

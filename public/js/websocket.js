@@ -7,7 +7,7 @@ $(function() {
 });
 
 var config = {
-    server : 'ws://10.0.0.252:9501'
+    server : 'ws://192.168.8.135:9501'
 };
 
 var chat = {

@@ -27,7 +27,6 @@
 @section('content')
     <div class="card">
         <a href="{{ route('chat.index') }}" class="external">
-            {{--<div class="card-header chat-title">11111111</div>--}}
             <div class="card-header chat-title">多人在线聊天室系统</div>
             <div class="card-content">
                 <div class="list-block media-list">
@@ -38,7 +37,6 @@
                             </div>
                             <div class="item-inner">
                                 <p class="p_intro">简介：该系统基于 Laravel + Swoole + Redis + MySQL 实现的多人聊天室，模式类似于群，欢迎评论和点赞。</p>
-                                {{--<p>22222222</p>--}}
                             </div>
                         </li>
                     </ul>
