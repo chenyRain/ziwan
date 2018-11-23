@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @section('css')
-        <link rel="stylesheet" href="{{ asset('css/light7.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/light7.min.css') }}">
     @show
     <title>自玩多元化</title>
 </head>
