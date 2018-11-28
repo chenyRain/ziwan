@@ -113,7 +113,17 @@ class SiteController extends BaseController
      */
     public function logout()
     {
+        // 清除redis用户信息
+        $uid = Auth::id();
+        $redis_info = array(
+            'id:'.$uid,
+            'name:'.$uid
+        );
+        Redis::hdel('userinfo', $redis_info);
+
+        // 清除session数据
         Auth::logout();
+
         return redirect()->route('site.login');
     }
 
