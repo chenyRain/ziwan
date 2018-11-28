@@ -7,7 +7,7 @@ $(function() {
 });
 
 var config = {
-    server : 'ws://192.168.8.228:9502'
+    server : 'ws://47.106.228.160:9502'
 };
 
 var chat = {
@@ -42,7 +42,7 @@ var chat = {
                     chat.notice(data.message);
                     break;
                 case 'close':
-                    chat.removeUser(data.uid);
+                    chat.removeUser(data.list);
                     chat.notice(data.message);
                     break;
                 case 'message':
@@ -56,8 +56,16 @@ var chat = {
             console.log('Error occured: ' + evt.data);
         };
     },
-    removeUser: function(uid) {
-        $(".uid-"+uid).remove();
+    removeUser: function(list) {
+        var html = '';
+        $.each(list, function (key, value) {
+            html += '<li>'
+                + '<div class="item-content">'
+                + '<div class="item-inner">'
+                + '<div class="item-title">'+ value.name +'</div>'
+                + '</div></div></li>';
+        });
+        $(".user-list").empty().append(html);
     },
     sendMsg : function() {
 
@@ -85,7 +93,7 @@ var chat = {
     appendUser : function(list) {
         var html = '';
         $.each(list, function (key, value) {
-            html += '<li class="uid-'+ value.uid + '">'
+            html += '<li>'
                 + '<div class="item-content">'
                 + '<div class="item-inner">'
                 + '<div class="item-title">'+ value.name +'</div>'
