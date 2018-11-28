@@ -2,7 +2,7 @@
 
 namespace App\Services;
 use Hhxsv5\LaravelS\Swoole\WebSocketHandlerInterface;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 /**
@@ -27,46 +27,47 @@ class WebSocketService implements WebSocketHandlerInterface
      */
     public function onOpen(\swoole_websocket_server $server, \swoole_http_request $request)
     {
-        // 获取用户信息，绑定fd
-//        $user = $request->user();
-        \Log::info($request->fd);
-//        Redis::set($user->id.'_'.$request->fd, serialize($user));
-//        Redis::lpush('chat:uid:fd', $user->id.'_'.$request->fd);
+        // 处理用户ID
+        $uid = intval(ltrim($request->server['request_uri'],'/'));
 
-        // 推送所有用户
-//        $msg = [
-//            'all' => $this->getAll(),
-//            'type' => 'openSuccess'
-//        ];
-//        $server->push($request->fd, json_encode($msg));
+        try {
+            // 绑定fd
+            Redis::zadd('chatlist', $uid, $request->fd);
 
-        $msg = [
-            'type' => 'open',
-//            'name' => $user->name,
-//            'uid' => $user->id,
-//            'message' => '欢迎 '. $user->name . '来到聊天室~'
-            'message' => '欢迎 '.$user->id.' 来到聊天室~'
-        ];
-        $server->push($request->fd, json_encode($msg));
-        // 在触发onOpen事件之前Laravel的生命周期已经完结，所以Laravel的Request、Session是可用的
-//        \Log::info('New WebSocket connection', [$request->fd, request()->all(), session()->getId(), session('xxx')]);
-//        $server->push($request->fd, 'Welcome to LaravelS');
-        // throw new \Exception('an exception');// 此时抛出的异常上层会忽略，并记录到Swoole日志，需要开发者try/catch捕获处理
-    }
+            // 获取所有FD
+            $list = Redis::zrange('chatlist', 0, -1);
 
+            // 处理用户信息，用于列表
+            $user_list = array();
+            foreach ($list as $key => $value) {
+                // 获取对应用户ID
+                $user_id = Redis::zscore('chatlist', $value);
+                // 获取用户信息
+                $username = Redis::hget('userinfo', 'name:' . $user_id);
 
-    /**
-     * 所有用户
-     * @return array
-     */
-    private function getAll()
-    {
-        $all_key = Redis::lrange('chat:uid:fd', 0, -1);
-        $users = [];
-        foreach ($all_key as $item) {
-            $users[] = unserialize(Redis::get($item));
+                $user_list[$key]['uid'] = $uid;
+                $user_list[$key]['name'] = $username;
+            }
+
+            // 获取用户信息
+            $name = Redis::hget('userinfo', 'name:' . $uid);
+
+            // 推送进入聊天室通知的信息
+            $msg = [
+                'type' => 'open',
+                'name' => $name,
+                'uid' => $uid,
+                'message' => '欢迎 '. $name . ' 来到聊天室',
+                'list' => $user_list
+            ];
+
+            // 推送给所有人
+            foreach ($list as $value) {
+                $server->push($value, json_encode($msg));
+            }
+        } catch (\Exception $e) {
+            Log::info($e->getMessage(), array('uid' => $uid));
         }
-        return $users;
     }
 
 
@@ -77,17 +78,32 @@ class WebSocketService implements WebSocketHandlerInterface
      */
     public function onMessage(\swoole_websocket_server $server, \swoole_websocket_frame $frame)
     {
-        $user = Auth::user();
-        $msg = [
-            'type' => 'message',
-            'message' => $frame->data,
-            'name' => $user->name,
-            'uid' => $user->id
-        ];
-        $server->push($frame->fd, json_encode($msg));
-//        \Log::info('Received message', [$frame->fd, $frame->data, $frame->opcode, $frame->finish]);
-//        $server->push($frame->fd, date('Y-m-d H:i:s'));
-        // throw new \Exception('an exception');// 此时抛出的异常上层会忽略，并记录到Swoole日志，需要开发者try/catch捕获处理
+        try {
+            // 获取对应用户ID
+            $uid = Redis::zscore('chatlist', $frame->fd);
+            // 获取用户信息
+            $name = Redis::hget('userinfo', 'name:' . $uid);
+            // 获取所有FD
+            $list = Redis::zrange('chatlist', 0, -1);
+
+            // 过滤数据
+            $data = strip_tags($frame->data);
+            $data = htmlspecialchars($data);
+
+            $msg = [
+                'type' => 'message',
+                'message' => $data,
+                'name' => $name,
+                'uid' => $uid
+            ];
+
+            // 推送给所有人
+            foreach ($list as $value) {
+                $server->push($value, json_encode($msg));
+            }
+        } catch (\Exception $e) {
+            Log::info($e->getMessage(), array('fd' => $frame->fd));
+        }
     }
 
 
@@ -99,14 +115,43 @@ class WebSocketService implements WebSocketHandlerInterface
      */
     public function onClose(\swoole_websocket_server $server, $fd, $reactorId)
     {
-        $user = $this->user;
-        $msg = [
-            'type' => 'close',
-            'uid' => $user->id,
-            'message' => $user->name." 离开了聊天室~~~"
-        ];
-        $server->push($fd, json_encode($msg));
-        Redis::del($user->id.$fd);
-        // throw new \Exception('an exception');// 此时抛出的异常上层会忽略，并记录到Swoole日志，需要开发者try/catch捕获处理
+        try {
+            // 获取对应用户ID
+            $uid = Redis::zscore('chatlist', $fd);
+            // 删除集合中用户信息
+            Redis::zrem('chatlist', $fd);
+
+            // 获取所有FD
+            $list = Redis::zrange('chatlist', 0, -1);
+
+            // 处理用户信息，用于列表
+            $user_list = array();
+            foreach ($list as $key => $value) {
+                // 获取对应用户ID
+                $user_id = Redis::zscore('chatlist', $value);
+                // 获取用户信息
+                $username = Redis::hget('userinfo', 'name:' . $user_id);
+
+                $user_list[$key]['uid'] = $uid;
+                $user_list[$key]['name'] = $username;
+            }
+
+            // 获取用户信息
+            $name = Redis::hget('userinfo', 'name:' . $uid);
+
+            $msg = [
+                'type' => 'close',
+                'uid' => $uid,
+                'message' => $name." 离开了聊天室",
+                'list' => $user_list
+            ];
+
+            // 推送给所有人
+            foreach ($list as $value) {
+                $server->push($value, json_encode($msg));
+            }
+        } catch (\Exception $e) {
+            Log::info($e->getMessage(), array('uid' => $uid));
+        }
     }
 }

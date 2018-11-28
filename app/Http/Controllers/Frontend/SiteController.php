@@ -4,10 +4,11 @@ namespace App\Http\Controllers\frontend;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Validator;
 use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Redis;
+use Validator;
 
 class SiteController extends BaseController
 {
@@ -39,7 +40,7 @@ class SiteController extends BaseController
         }
 
         // 验证用户是否存在
-        $user = User::where('name', $data['name'])->first();
+        $user = User::select('id', 'name', 'password')->where('name', $data['name'])->first();
         if (empty($user)) {
             $this->jsonRes['msg'] = '用户名不存在~';
             return response()->json($this->jsonRes);
@@ -53,6 +54,13 @@ class SiteController extends BaseController
 
         // 登陆
         Auth::login($user);
+
+        // 存入用户信息
+        $redis_info = array(
+            'id:'.$user->id => $user->id,
+            'name:'.$user->id => $user->name
+        );
+        Redis::hmset('userinfo', $redis_info);
 
         $this->jsonRes['code'] = 200;
         return response()->json($this->jsonRes);

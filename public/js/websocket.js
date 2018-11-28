@@ -1,13 +1,13 @@
 $(function() {
     chat.init();
 
-    $(".button-sned").click(function(){
+    $(".button-send").click(function(){
         chat.sendMsg();
     });
 });
 
 var config = {
-    server : 'ws://192.168.8.135:9501'
+    server : 'ws://192.168.8.228:9502'
 };
 
 var chat = {
@@ -16,7 +16,8 @@ var chat = {
         info : {}
     },
     init : function() {
-        this.data.wsServer = new WebSocket(config.server);
+        var uid = $('.chat-content').attr('data-id');
+        this.data.wsServer = new WebSocket(config.server + '/' + uid);
         this.open();
         this.close();
         this.messages();
@@ -29,24 +30,20 @@ var chat = {
     },
     close : function() {
         this.data.wsServer.onclose = function(evt) {
-            $.toast("连接失败");
+            $.toast("进入聊天室失败");
         }
     },
     messages : function() {
         this.data.wsServer.onmessage = function (evt) {
-            var data = jQuery.parseJSON(evt.data);
+            var data = JSON.parse(evt.data);
             switch (data.type) {
                 case 'open':
-                    chat.appendUser(data.name, data.uid);
+                    chat.appendUser(data.list);
                     chat.notice(data.message);
                     break;
                 case 'close':
                     chat.removeUser(data.uid);
                     chat.notice(data.message);
-                    break;
-                case 'openSuccess':
-                    // chat.data.info = data.user; // 聊天内容
-                    chat.showAllUser(data.all); // 所有用户
                     break;
                 case 'message':
                     chat.newMessage(data);
@@ -62,11 +59,6 @@ var chat = {
     removeUser: function(uid) {
         $(".uid-"+uid).remove();
     },
-    showAllUser: function(users) {
-        for (i in users) {
-            this.appendUser(users[i].name, users[i].id);
-        }
-    },
     sendMsg : function() {
 
         var content = $('#input-say').val();
@@ -81,21 +73,24 @@ var chat = {
         var uid = $('.chat-content').attr('data-id');
         var chat_my = '';
         if (uid == data.uid) {
-            chat_my = 'class="chat-my"';
+            chat_my = 'chat-my';
         }
-        var html = '<li "+chat_my+"><div class="user-name">+data.name+</div>'
-            + '<div class="user-content">+data.message+</div></li>';
+        var html = '<li class="'+chat_my+'"><div class="user-name">'+data.name+'</div>'
+            + '<div class="user-content">'+data.message+'</div></li>';
         $('.chart-list').append(html);
     },
     notice : function(msg) {
         $.toast(msg);
     },
-    appendUser : function(name, uid) {
-        var html = '<li class="uid-'+uid+'">'
-            + '<div class="item-content">'
-            + '<div class="item-inner">'
-            + '<div class="item-title">+ name +</div>'
-            + '</div></div></li>';
-        $(".user-list").append(html);
+    appendUser : function(list) {
+        var html = '';
+        $.each(list, function (key, value) {
+            html += '<li>'
+                + '<div class="item-content">'
+                + '<div class="item-inner">'
+                + '<div class="item-title">'+ value.name +'</div>'
+                + '</div></div></li>';
+        });
+        $(".user-list").empty().append(html);
     }
 };

@@ -30,7 +30,7 @@
 @section('content')
     <div class="card">
         <a href="{{ route('chat.index') }}" class="external">
-            <div class="card-header chat-title">多人在线聊天室系统</div>
+            <div class="card-header chat-title">聊天室</div>
             <div class="card-content">
                 <div class="list-block media-list">
                     <ul>

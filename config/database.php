@@ -113,6 +113,7 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
+            'read_write_timeout' => 60,
         ],
         'session' => [
             'host' => env('SESS_REDIS_HOST', '127.0.0.1'),
