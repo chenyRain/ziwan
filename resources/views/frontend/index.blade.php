@@ -39,7 +39,7 @@
                                 <img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg" width="44">
                             </div>
                             <div class="item-inner">
-                                <p class="p_intro">简介：该系统基于 Laravel + Swoole + Redis + MySQL 实现的多人聊天室，模式类似于群，欢迎评论和点赞。</p>
+                                <p class="p_intro">简介：该系统基于 Laravel + Swoole + Redis + MySQL 实现的多人聊天室，欢迎评论和点赞。</p>
                             </div>
                         </li>
                     </ul>
