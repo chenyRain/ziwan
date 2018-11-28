@@ -85,7 +85,7 @@ var chat = {
     appendUser : function(list) {
         var html = '';
         $.each(list, function (key, value) {
-            html += '<li>'
+            html += '<li class="uid-'+ value.uid + '">'
                 + '<div class="item-content">'
                 + '<div class="item-inner">'
                 + '<div class="item-title">'+ value.name +'</div>'
