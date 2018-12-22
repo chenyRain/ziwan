@@ -25,26 +25,4 @@ class ChatController extends Controller
         $user = Auth::user();
         return view('frontend.chat-list', compact('user'));
     }
-
-    /**
-     *
-     * 聊天
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
-     */
-    public function say(Request $request)
-    {
-        if (! $request->ajax()) {
-            return back();
-        }
-        $content = $request->input('content');
-        if (empty($content)) {
-            $this->jsonRes['msg'] = '请输入你要说的话~';
-            return response()->json($this->jsonRes);
-        }
-
-        $this->jsonRes['msg'] = "你说了：".$content;
-        $this->jsonRes['code'] = 200;
-        return response()->json($this->jsonRes);
-    }
 }

@@ -23,3 +23,37 @@ ul,li{
 .index-sidebar-content{
     height: 60%;
 }
+.like {
+    font-size:18px;
+    color:#ccc;
+    cursor:pointer;
+}
+.already-like {
+    color: #f00;
+}
+.more-card {
+    margin-bottom: 2rem;
+}
+
+/*=======================评论页面================================*/
+.time-color {
+    font-size: 0.5rem;
+}
+.comment-username {
+    color: #43CD80;
+    font-size: 1rem;
+    margin-left: 0.7rem;
+}
+.comment-content {
+    font-size: 0.65rem !important;
+    color: #1c1d1f !important;
+    margin-top: 0.2rem;
+    margin-left: 0.7rem;
+}
+.comment-send {
+    margin-right: 0.3rem;
+}
+.comment-textarea {
+    border: solid 1px #43CD80 !important;
+    border-radius: 15px !important;
+}

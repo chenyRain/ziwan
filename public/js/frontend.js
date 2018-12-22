@@ -6,6 +6,7 @@ $(function () {
         }
     });
 
+    // 注册
     $('.register').click(function () {
         $.showIndicator();
         var data = {
@@ -64,7 +65,7 @@ $(function () {
         });
     });
 
-
+    // 登录
     $('.login').click(function () {
         $.showIndicator();
         var data = {
@@ -103,22 +104,61 @@ $(function () {
         });
     });
 
-    $('.button-sned').click(function () {
-        var content = $('#input-say').val();
-        if (content.length > 30) {
-            $.toast('发送内容不能超过30个字符~');
-            return false;
-        }
-        $('#input-say').val('');
+    // 点赞
+    $('.like').click(function () {
+        var self = $(this);
         $.ajax({
-            url: '/chat/say',
+            url: '/main/like',
             type: 'post',
             dataType: 'json',
-            data: {'content':content},
+            data: {'m_id' : self.attr('attr-mid')},
             success: function (back) {
-                if (back.code == 200) {
-                    $.alert(back.msg);
+                if (back.code == 1) {
+                    self.addClass('already-like');
+                    var like_num = parseInt(self.find('.like-num').text()) + 1;
+                    self.find('.like-num').text(like_num);
+                } else {
+                    $.toast(back.msg);
                     return false;
+                }
+            }
+        });
+    });
+
+    // 评论
+    $('.comment-button').click(function () {
+        var content = $('.comment-textarea').val();
+        var m_id = $(this).attr('attr-id');
+
+        if (content == '') {
+            $.alert('请输入评论内容！');
+            $.hideIndicator();
+            return false;
+        }
+        if (content.length > 140) {
+            $.alert('评论内容不能超过140个字！');
+            $.hideIndicator();
+            return false;
+        }
+
+        $.ajax({
+            url: '/comment/store',
+            type: 'post',
+            dataType: 'json',
+            data: {'content' : content, 'm_id' : m_id},
+            success: function (back) {
+                if (back.code == 1) {
+                    var html = '<li>\n' +
+                        '            <div class="item-inner">\n' +
+                    '                    <div class="item-title-row">\n' +
+                    '                        <div class="item-title comment-username">'+ back.result.nickname +'</div>\n' +
+                    '                        <div class="item-after time-color">' + back.result.ctime + '</div>\n' +
+                    '                    </div>\n' +
+                    '                    <div class="item-text comment-content">' + back.result.content + '</div>\n' +
+                    '                </div>\n' +
+                        '        </li>';
+
+                    $('.comment-list').append(html);
                 } else {
                     $.toast(back.msg);
                     return false;

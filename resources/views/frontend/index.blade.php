@@ -28,31 +28,35 @@
 @endsection
 
 @section('content')
-    <div class="card">
-        <a href="{{ route('chat.index') }}" class="external">
-            <div class="card-header chat-title">聊天室</div>
-            <div class="card-content">
-                <div class="list-block media-list">
-                    <ul>
-                        <li class="item-content">
-                            <div class="item-media">
-                                <img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg" width="44">
-                            </div>
-                            <div class="item-inner">
-                                <p class="p_intro">简介：该系统基于 Laravel + Swoole + Redis + MySQL 实现的多人聊天室，欢迎评论和点赞。</p>
-                            </div>
-                        </li>
-                    </ul>
+    @if(! empty($modules))
+        @foreach($modules as $module)
+        <div class="card more-card">
+            <a href="{{ route($module['url']) }}" class="external">
+                <div class="card-header chat-title">{{ $module['title'] }}</div>
+                <div class="card-content">
+                    <div class="list-block media-list">
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-media">
+                                    <img src="{{ $module['img'] }}" width="44">
+                                </div>
+                                <div class="item-inner">
+                                    <p class="p_intro">{{ $module['desc'] }}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </a>
-        <div class="card-footer">
-            <a href="#" class="link">赞</a>
-            <a href="#" class="link">
-                <span class="icon icon-message"></span>
             </a>
+            <div class="card-footer">
+                <label class="like {{ $module['is_like'] }}" attr-mid="{{ $module['id'] }}">&#10084; <span class="like-num">{{ $module['like_num'] }}</span></label>
+                <a href="{{ route('comment.index', ['m_id' => $module['id']]) }}" class="link external">
+                    <span class="icon icon-message"></span>
+                </a>
+            </div>
         </div>
-    </div>
+        @endforeach
+    @endif
 @endsection
 
 @section('sidebar')

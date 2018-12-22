@@ -26,7 +26,10 @@ Route::group(['namespace' => 'Frontend'], function () {
         Route::get('logout', 'SiteController@logout')->name('site.logout');
         Route::get('/', 'MainController@index')->name('index');
         Route::get('chat', 'ChatController@index')->name('chat.index');
-        Route::post('chat/say', 'ChatController@say')->name('chat.say');
+        Route::post('main/like', 'MainController@like')->name('main.like');
+        Route::get('comment/index', 'CommentController@index')->name('comment.index');
+        Route::post('comment/store', 'CommentController@store')->name('comment.store');
+        Route::get('publish', 'PublishController@index')->name('publish.index');
     });
 });
 
