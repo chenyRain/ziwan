@@ -20,7 +20,7 @@
             <div class="item-content">
                 <div class="item-inner">
                     <div class="col-50 comment-send">
-                        <button attr-id="{{ $m_id }}" class="button button-big button-fill button-success comment-button">发送</button>
+                        <div attr-id="{{ $m_id }}" class="button button-big button-fill button-success comment-button">发送</div>
                     </div>
                     <div class="item-input">
                         <textarea class="comment-textarea" placeholder="文明上网，理性发言"></textarea>
