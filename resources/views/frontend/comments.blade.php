@@ -46,5 +46,10 @@
             @endforeach
         @endif
     </ul>
+    <!-- 加载提示符 -->
+    <div class="infinite-scroll-preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page-bottom"></div>
 </div>
 @endsection

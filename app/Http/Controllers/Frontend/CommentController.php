@@ -7,9 +7,13 @@ use App\Models\Comments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class CommentController extends BaseController
 {
+    private $comment_frequency = 5; // 评论频率
+    private $comment_key = 'comment_key'; // 评论key
+
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +37,14 @@ class CommentController extends BaseController
                 ->get()
                 ->toArray();
         }
-        return view('frontend.comments', compact('list', 'm_id'));
+
+        if ($request->ajax()) {
+            $this->jsonRes['code'] = 1;
+            $this->jsonRes['result'] = $list;
+            return Response()->json($this->jsonRes);
+        } else {
+            return view('frontend.comments', compact('list', 'm_id'));
+        }
     }
 
 
@@ -48,6 +59,10 @@ class CommentController extends BaseController
         $m_id = intval($request->input('m_id'));
         $content = htmlspecialchars($request->input('content'));
         try {
+            // 设置频率
+            if (! empty(Redis::get($this->comment_key))) {
+                throw new \Exception('操作太频繁了！');
+            }
             if (empty($m_id)) {
                 throw new \Exception('参数错误！');
             }
@@ -57,7 +72,6 @@ class CommentController extends BaseController
             if (mb_strlen($content) > 140) {
                 throw new \Exception('评论内容不能超过140字！');
             }
-
 
             $data['m_id'] = $m_id;
             $data['uid'] = Auth::id();
@@ -73,8 +87,12 @@ class CommentController extends BaseController
             $user = Auth::user();
             $data['nickname'] = $user->name;
 
+            // 设置访问频率
+            Redis::setex($this->comment_key, $this->comment_frequency, $this->comment_frequency);
+
             $this->jsonRes['code'] = 1;
             $this->jsonRes['result'] = $data;
+            $this->jsonRes['msg'] = '发布成功';
         } catch (\Exception $e) {
             $this->jsonRes['msg'] = $e->getMessage();
         }

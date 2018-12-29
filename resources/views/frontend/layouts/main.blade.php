@@ -9,6 +9,10 @@
     @section('css')
     <link rel="stylesheet" href="{{ asset('css/light7.min.css') }}">
     @show
+    @section('base_js')
+    <script type='text/javascript' src='{{ asset('js/jquery.min.js') }}'></script>
+    <script type='text/javascript' src='{{ asset('js/light7.min.js') }}'></script>
+    @show
     <title>自玩多元化</title>
 </head>
 <body>
@@ -21,7 +25,7 @@
     @yield('nav')
 
     <!-- 这里是页面内容区 -->
-    <div class="content">
+    <div class="content infinite-scroll infinite-scroll-bottom" data-distance="50">
         @yield('content')
     </div>
 </div>
@@ -29,8 +33,6 @@
 @yield('sidebar')
 
 @section('js')
-    <script type='text/javascript' src='{{ asset('js/jquery.min.js') }}'></script>
-    <script type='text/javascript' src='{{ asset('js/light7.min.js') }}'></script>
     <script type='text/javascript' src='{{ asset('js/frontend.js') }}'></script>
 @show
 </body>
