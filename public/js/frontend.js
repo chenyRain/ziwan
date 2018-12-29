@@ -180,7 +180,8 @@ $(function () {
         // 设置flag
         loading = true;
         page++; // 分页数
-        var m_id = $('.comment-button').attr('attr-id');
+        var m_id = $('.comment-button').attr('attr-id'); // 应用ID
+        $('.infinite-scroll-preloader').append('<div class="preloader"></div>'); // 加载图标
 
         $.ajax({
             url: '/comment/index',
