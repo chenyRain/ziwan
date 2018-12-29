@@ -116,7 +116,11 @@ $(function () {
             success: function (back) {
                 if (back.code == 1) {
                     self.addClass('already-like');
-                    var like_num = parseInt(self.find('.like-num').text()) + 1;
+                    if ($.trim(self.find('.like-num').text()) == '') {
+                        var like_num = 1;
+                    } else {
+                        var like_num = parseInt(self.find('.like-num').text()) + 1;
+                    }
                     self.find('.like-num').text(like_num);
                 } else {
                     $.toast(back.msg);
